@@ -6,397 +6,182 @@
   <title>Vishwas S N's Internship Project — Face Check-In</title>
   <style>
     :root{
-      --bg1: #0f172a;
-      --bg2: #071129;
-      --card: rgba(255,255,255,0.06);
-      --accent: #6ee7b7;
-      --accent-2: #60a5fa;
-      --glass: rgba(255,255,255,0.04);
-      --muted: rgba(255,255,255,0.7);
+      --bg1:#0f172a; --bg2:#071129; --card:rgba(255,255,255,0.06);
+      --accent:#6ee7b7; --accent-2:#60a5fa; --glass:rgba(255,255,255,0.04);
+      --muted:rgba(255,255,255,0.75);
     }
-
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
-      margin:0;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      color: white;
-      background: linear-gradient(135deg,var(--bg1),var(--bg2));
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:28px;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
+      margin:0; font-family:Inter, system-ui, "Segoe UI", Roboto, Arial;
+      color:#fff; background:linear-gradient(135deg,var(--bg1),var(--bg2));
+      display:flex; align-items:center; justify-content:center; padding:24px;
     }
-
-    .wrap{
-      width:100%;
-      max-width:860px;
-      border-radius:16px;
-      padding:26px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      box-shadow: 0 10px 30px rgba(2,6,23,0.6);
-      backdrop-filter: blur(6px);
-      border: 1px solid rgba(255,255,255,0.04);
-      transform: translateY(0);
-      transition: transform .35s ease;
-    }
-
-    header{
-      display:flex;
-      gap:16px;
-      align-items:center;
-      justify-content:space-between;
-      margin-bottom:18px;
-    }
-
-    .title {
-      display:flex;
-      gap:14px;
-      align-items:center;
-    }
-    .logo {
-      width:64px;
-      height:64px;
-      border-radius:12px;
-      background: linear-gradient(135deg,var(--accent),var(--accent-2));
-      display:grid;
-      place-items:center;
-      font-weight:700;
-      color:#022;
-      box-shadow: 0 6px 18px rgba(99,102,241,0.12);
-      transform: rotate(-10deg);
-    }
-    h1{
-      font-size:20px;
-      margin:0;
-      line-height:1.05;
-      letter-spacing:0.2px;
-    }
-    p.sub {
-      margin:0;
-      color:var(--muted);
-      font-size:13px;
-    }
-
-    .action-row{
-      display:flex;
-      gap:8px;
-      align-items:center;
-    }
-    .btn {
-      border:0;
-      padding:10px 14px;
-      font-weight:600;
-      border-radius:10px;
-      cursor:pointer;
-      background:transparent;
-      color:var(--muted);
-      border:1px solid rgba(255,255,255,0.06);
-      transition: all .18s ease;
-    }
-    .btn:hover{ transform: translateY(-2px); color:white }
-    .btn.primary{
-      background: linear-gradient(90deg,var(--accent),var(--accent-2));
-      color:#042;
-      border:none;
-      box-shadow: 0 8px 24px rgba(59,130,246,0.12);
-    }
-
-    .note{
-      margin:14px 0 22px 0;
-      background: linear-gradient(90deg, rgba(255,236,179,0.07), rgba(255,255,255,0.02));
-      border-left:4px solid #ffca2c;
-      padding:12px 14px;
-      border-radius:8px;
-      color:#ffdca6;
-      font-size:13px;
-    }
-
-    .cards{
-      display:grid;
-      gap:14px;
-      grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
-    }
-
-    .card{
-      background: var(--card);
-      padding:14px;
-      border-radius:12px;
-      border:1px solid var(--glass);
-      display:flex;
-      gap:12px;
-      align-items:center;
-      justify-content:space-between;
-      transition: transform .18s ease, box-shadow .18s ease;
-    }
-    .card:hover{ transform: translateY(-6px); box-shadow: 0 14px 36px rgba(2,6,23,0.6) }
-
-    .card .left{
-      display:flex;
-      gap:12px;
-      align-items:center;
-    }
-    .chip{
-      width:48px;
-      height:48px;
-      border-radius:10px;
-      display:grid;
-      place-items:center;
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border:1px solid rgba(255,255,255,0.03);
-      font-weight:700;
-      color:var(--accent);
-      font-size:14px;
-    }
-    .meta{
-      display:flex;
-      flex-direction:column;
-      gap:4px;
-    }
-    .meta .name{ font-weight:700; font-size:15px }
-    .meta .desc{ font-size:13px; color:var(--muted) }
-
-    .card .right{
-      display:flex;
-      gap:8px;
-      align-items:center;
-    }
-    .link-btn{
-      display:inline-flex;
-      gap:8px;
-      align-items:center;
-      padding:8px 10px;
-      border-radius:8px;
-      border:1px solid rgba(255,255,255,0.06);
-      background:transparent;
-      color:var(--muted);
-      cursor:pointer;
-      font-weight:600;
-    }
-    .link-btn.primary{
-      background: linear-gradient(90deg,var(--accent),var(--accent-2));
-      color:#042;
-      border:none;
-    }
-
-    .small{ font-size:12px; color:var(--muted) }
-
-    /* toast & spinner */
-    .overlay{
-      position:fixed;
-      left:0;right:0;top:0;bottom:0;
-      display:none;
-      align-items:center;
-      justify-content:center;
-      background: rgba(2,6,23,0.4);
-      z-index:60;
-    }
-    .overlay.show{ display:flex }
-    .modal{
-      background: #021426;
-      border-radius:12px;
+    .wrap{width:100%;max-width:900px;border-radius:14px;padding:22px;background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));box-shadow:0 12px 36px rgba(2,6,23,0.6);border:1px solid rgba(255,255,255,0.04)}
+    header{display:flex;align-items:center;gap:16px;margin-bottom:14px}
+    .title{display:flex;gap:12px;align-items:center}
+    .logo{width:56px;height:56px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:grid;place-items:center;color:#022;font-weight:800;transform:rotate(-8deg)}
+    h1{margin:0;font-size:20px}
+    .sub{margin:0;color:var(--muted);font-size:13px}
+    .note{margin:12px 0;padding:12px;border-left:4px solid #ffca2c;border-radius:8px;color:#ffdca6;background:rgba(255,236,179,0.02);font-size:13px}
+    .cards{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+    .card{display:flex;justify-content:space-between;align-items:center;padding:14px;border-radius:12px;background:var(--card);border:1px solid var(--glass)}
+    .left{display:flex;gap:12px;align-items:center}
+    .chip{width:46px;height:46px;border-radius:10px;display:grid;place-items:center;font-weight:800;color:var(--accent)}
+    .meta .name{font-weight:700}
+    .meta .desc{font-size:13px;color:var(--muted)}
+    .right{display:flex;gap:8px}
+    .link-btn{padding:8px 10px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:var(--muted);font-weight:700;cursor:pointer}
+    .primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#042;border:none}
+    .desc-box{
+      margin-top:20px;
       padding:18px;
-      min-width:280px;
-      display:flex;
-      gap:12px;
-      align-items:center;
+      background:rgba(255,255,255,0.06);
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,0.05);
+      line-height:1.6;
+      font-size:14px;
       color:var(--muted);
-      border:1px solid rgba(255,255,255,0.03);
     }
-    .spinner{
-      width:36px;height:36px;border-radius:50%;
-      border:4px solid rgba(255,255,255,0.06);
-      border-top-color:var(--accent);
-      animation: spin 1s linear infinite;
-    }
-    @keyframes spin{ to{ transform: rotate(360deg)} }
-
-    .toast{
-      position:fixed;
-      right:20px;
-      bottom:20px;
-      background: linear-gradient(90deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
-      padding:10px 14px;
-      border-radius:10px;
-      color:var(--muted);
-      border:1px solid rgba(255,255,255,0.03);
-      box-shadow: 0 8px 26px rgba(2,6,23,0.6);
-      display:none;
-      z-index:70;
-    }
-    .toast.show{ display:block }
-
-    /* responsive small text */
-    @media (max-width:520px){
-      header{flex-direction:column; align-items:flex-start; gap:10px}
-      .logo{width:56px;height:56px}
-      .action-row{width:100%; justify-content:space-between}
-    }
+    .toast{position:fixed;right:18px;bottom:18px;padding:10px 14px;border-radius:10px;background:rgba(0,0,0,0.45);color:var(--muted);display:none;z-index:999}
+    .toast.show{display:block}
+    .overlay{position:fixed;left:0;right:0;top:0;bottom:0;display:none;align-items:center;justify-content:center;background:rgba(2,6,23,0.45);z-index:900}
+    .overlay.show{display:flex}
+    .modal{background:#021426;padding:14px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);display:flex;gap:12px;align-items:center;color:var(--muted)}
+    .spinner{width:34px;height:34px;border-radius:50%;border:4px solid rgba(255,255,255,0.06);border-top-color:var(--accent);animation:spin 1s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
   </style>
 </head>
 <body>
-
   <div class="wrap" role="main">
+
     <header>
       <div class="title">
         <div class="logo">VS</div>
         <div>
           <h1>Vishwas S N's Internship Project</h1>
-          <p class="sub">Face Check-In App — live demo links & quick actions</p>
+          <p class="sub">Face Check-In App — Live Demo Links</p>
         </div>
-      </div>
-
-      <div class="action-row">
-        <button class="btn" id="aboutBtn" title="Project info">About</button>
-        <button class="btn primary" id="openAll">Open All</button>
       </div>
     </header>
 
-    <p class="note">
-      ⚠ Note: App is hosted on Render free plan — it may take a few seconds to “wake up”.
-      After the link wakes, camera capture & submission work as expected.
-    </p>
+    <p class="note">⚠ Hosted on Render free plan. It may take 3–10 seconds to wake up.</p>
 
-    <div class="cards" aria-live="polite">
+    <div class="cards">
       <div class="card" data-url="https://snapshare-face-checkin-backend.onrender.com/register">
         <div class="left">
           <div class="chip">R</div>
-          <div class="meta">
-            <div class="name">Register Page</div>
-            <div class="desc small">Register new users — camera capture enabled</div>
-          </div>
+          <div class="meta"><div class="name">Register Page</div><div class="desc">Register new users using camera</div></div>
         </div>
         <div class="right">
-          <button class="link-btn" data-action="copy">Copy</button>
-          <button class="link-btn primary" data-action="open">Open</button>
+          <button class="link-btn copy-btn">Copy</button>
+          <button class="link-btn primary open-btn">Open</button>
         </div>
       </div>
 
       <div class="card" data-url="https://snapshare-face-checkin-backend.onrender.com/identify">
         <div class="left">
           <div class="chip">I</div>
-          <div class="meta">
-            <div class="name">Identify Page</div>
-            <div class="desc small">Identify & check-in users using face match</div>
-          </div>
+          <div class="meta"><div class="name">Identify Page</div><div class="desc">Face recognition check-in</div></div>
         </div>
         <div class="right">
-          <button class="link-btn" data-action="copy">Copy</button>
-          <button class="link-btn primary" data-action="open">Open</button>
+          <button class="link-btn copy-btn">Copy</button>
+          <button class="link-btn primary open-btn">Open</button>
         </div>
       </div>
 
       <div class="card" data-url="https://snapshare-face-checkin-backend.onrender.com/admin">
         <div class="left">
           <div class="chip">A</div>
-          <div class="meta">
-            <div class="name">Admin Page</div>
-            <div class="desc small">Manage users & view check-in logs</div>
-          </div>
+          <div class="meta"><div class="name">Admin Page</div><div class="desc">Manage users & create events</div></div>
         </div>
         <div class="right">
-          <button class="link-btn" data-action="copy">Copy</button>
-          <button class="link-btn primary" data-action="open">Open</button>
+          <button class="link-btn copy-btn">Copy</button>
+          <button class="link-btn primary open-btn">Open</button>
         </div>
       </div>
     </div>
 
-    <div style="margin-top:18px; display:flex; gap:8px; align-items:center;">
-      <div class="small" style="color:var(--muted)">Tip: Click "Open" to try — if slow, wait 3–8s while Render wakes the app.</div>
+    <!-- Project Description -->
+    <div class="desc-box">
+      <h3 style="margin:0 0 8px 0; color:white;">About This Project</h3>
+      This internship project is a complete <b>Face Recognition Check-In System</b>. It includes:
+      <br><br>
+      • <b>Face Registration</b> – Users register by capturing their face using the camera.<br>
+      • <b>Face Identification</b> – The system recognizes the user and marks check-in/check-out.<br>
+      • <b>Admin Dashboard</b> – Admin can manage users and <b>create events</b> for which check-ins are recorded.
+      <br><br>
+      The backend is powered by <b>Python Flask + AWS Rekognition</b>, deployed on <b>Render Cloud</b>.
     </div>
+
   </div>
 
-  <!-- overlay modal while awakening -->
-  <div class="overlay" id="overlay" role="dialog" aria-hidden="true">
-    <div class="modal" id="modal">
-      <div class="spinner" aria-hidden="true"></div>
-      <div>
-        <div style="font-weight:700" id="modalTitle">Waking up the demo...</div>
-        <div class="small" id="modalSub">Trying to connect — opening in a new tab shortly.</div>
-      </div>
-    </div>
+  <!-- overlay (wake modal) -->
+  <div class="overlay" id="overlay">
+    <div class="modal"><div class="spinner"></div><div><div id="modalTitle" style="font-weight:700">Waking up demo...</div><div id="modalSub" style="font-size:13px;color:var(--muted)">Opening tab shortly</div></div></div>
   </div>
 
-  <div class="toast" id="toast" role="status" aria-live="polite">Link copied to clipboard</div>
+  <div class="toast" id="toast">Copied</div>
 
   <script>
-    // Utility: show toast
-    const toastEl = document.getElementById('toast');
-    function showToast(text = 'Done', duration = 2200){
-      toastEl.textContent = text;
-      toastEl.classList.add('show');
-      setTimeout(()=> toastEl.classList.remove('show'), duration);
+    const toast = document.getElementById('toast');
+    function showToast(t){ toast.textContent=t; toast.classList.add('show'); setTimeout(()=>toast.classList.remove('show'),2000); }
+
+    const overlay=document.getElementById('overlay');
+    const modalTitle=document.getElementById('modalTitle');
+    const modalSub=document.getElementById('modalSub');
+
+    async function wakeAndOpen(url,newTab){
+      overlay.classList.add('show');
+      modalTitle.textContent='Waking up demo...';
+      modalSub.textContent='Opening in a few seconds';
+
+      try{
+        const ctrl=new AbortController();
+        const t=setTimeout(()=>ctrl.abort(),8000);
+        await fetch(url,{method:'GET',mode:'no-cors',signal:ctrl.signal}).catch(()=>{});
+        clearTimeout(t);
+        await new Promise(r=>setTimeout(r,800));
+        newTab.location=url;
+      }catch{
+        newTab.location=url;
+      }finally{
+        setTimeout(()=>overlay.classList.remove('show'),600);
+      }
     }
 
-    // Overlay controls
-    const overlay = document.getElementById('overlay');
-    const modalTitle = document.getElementById('modalTitle');
-    const modalSub = document.getElementById('modalSub');
-
-    // handle button clicks (copy/open)
-    document.querySelectorAll('.card').forEach(card=>{
-      const url = card.dataset.url;
-      card.addEventListener('click', (e)=>{
-        const action = e.target.getAttribute('data-action');
-        if(!action) return;
-        if(action === 'copy'){
-          navigator.clipboard?.writeText(url)
-            .then(()=> showToast('Link copied to clipboard'))
-            .catch(()=> showToast('Copy failed — select & copy manually'));
-        } else if(action === 'open'){
-          openWithWake(url);
-        }
-      });
+    document.querySelectorAll('.open-btn').forEach(btn=>{
+      btn.onclick=()=>{
+        const url=btn.closest('.card').dataset.url;
+        const newTab=window.open('about:blank','_blank');
+        if(!newTab){ showToast('Enable popups to open'); return; }
+        wakeAndOpen(url,newTab);
+      };
     });
 
-    // open all
-    document.getElementById('openAll').addEventListener('click', ()=>{
-      const urls = Array.from(document.querySelectorAll('.card')).map(c=>c.dataset.url);
-      // open each with slight delay to improve wake behavior
-      urls.forEach((u,i)=> setTimeout(()=> openWithWake(u), i*700));
+    async function reliableCopy(text){
+      try{
+        await navigator.clipboard.writeText(text);
+        return true;
+      }catch{
+        const ta=document.createElement('textarea');
+        ta.value=text;
+        ta.style.position='fixed'; ta.style.left='-9999px';
+        document.body.appendChild(ta); ta.select();
+        const ok=document.execCommand('copy');
+        document.body.removeChild(ta);
+        return ok;
+      }
+    }
+
+    document.querySelectorAll('.copy-btn').forEach(btn=>{
+      btn.onclick=async()=>{
+        const url=btn.closest('.card').dataset.url;
+        const ok=await reliableCopy(url);
+        showToast(ok?'Link copied':'Copy failed');
+      };
     });
+  </script>
 
-    // About button
-    document.getElementById('aboutBtn').addEventListener('click', ()=>{
-      alert("Face Check-In — Live demo links (Render free plan).\\n\\nCreated by: Vishwas S N");
-    });
-
-    // Try to "wake" service by fetching URL, then open in new tab
-    async function openWithWake(url){
-      // Show overlay
-      overlay.classList.add('show');
-      overlay.setAttribute('aria-hidden','false');
-      modalTitle.textContent = 'Waking up the demo...';
-      modalSub.textContent = 'Trying to connect — opening in a new tab shortly.';
-
-      // Open blank tab first to avoid popup blockers, then navigate it when ready
-      const newTab = window.open('about:blank','_blank');
-
-      try {
-        // Attempt to fetch the URL (GET). Many hosts disable CORS; still this may trigger the server.
-        // Use fetch with no-cors fallback — if response is opaque or blocked, we still wait a bit.
-        const controller = new AbortController();
-        const timeout = setTimeout(()=> controller.abort(), 8000);
-
-        await fetch(url, { method: 'GET', mode: 'no-cors', signal: controller.signal })
-          .catch(()=> {/* ignore network/CORS errors */})
-          .finally(()=> clearTimeout(timeout));
-
-        // Slight additional wait so server finishes waking (adjusted small).
-        await new Promise(r=>setTimeout(r, 900));
-
-        modalTitle.textContent = 'Opening demo';
-        modalSub.textContent = 'If the new tab stayed blank, focus it to continue.';
-        // navigate the previously opened tab if still open
-        if(newTab && !newTab.closed){
-          newTab.location = url;
-        } else {
-          // fallback: open normally (may be blocked)
-          window.open(url, '_blank');
-        }
-
-        overlay.classList.remove('show');
-        overlay.setAttribute('aria-hidden','true');
-      } catch (err)
+</body>
+</html>
